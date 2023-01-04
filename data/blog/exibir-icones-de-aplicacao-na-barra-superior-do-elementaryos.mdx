@@ -1,0 +1,79 @@
+---
+title: 'Exibir icones de aplicação na barra superior do ElementaryOS'
+date: 2023-01-04T15:47:14Z
+lastmod: '2023-01-04'
+tags: ['ElementaryOS', 'Linux']
+draft: false
+summary: '...'
+layout: PostSimple
+canonicalUrl: https://leonardoprocopio.com/blog/exibir-icones-de-aplicacao-na-barra-superior-do-elementaryos/
+---
+
+## Olá pessoal!!
+
+Recentemente instalei alguns aplicativos novos no [ElementaryOS](https://elementary.io/pt_BR/) e notei que eles não aparecem por padrão no painel superior.
+
+Uma das vantagens de se ter os icones da aplicação de fácil acesso, é justamente a praticidade de poder aciona-los ou até mesmo conferir se está tudo funcionando bem.
+Um exemplo é o programa [Flameshot](https://flameshot.org/) que fornece as melhores opções para você fazer um print detalhado de algo em sua tela para enviar para outra pessoa.
+
+## OK! Mostre-me como
+
+Antes de tudo, precisamos habilitar a instalação de PPA no ElementaryOS:
+
+```jsx{}
+sudo apt install software-propriedades-comum
+```
+
+Segundo passo vai ser adicionar o repositório de onde vamos instalar a solução de nosso problema:
+
+```jsx{}
+sudo add-apt-repository ppa:yunnxx/elementary
+```
+
+Lembrando que sempre após adicionar um repositório, precisamos executar:
+
+```jsx{}
+sudo apt update
+```
+
+Feito isso, agora sim vamos partir para instalação:
+
+```jsx{}
+sudo apt install indicator-application wingpanel-indicator-ayatana
+```
+
+Agora precisamos realizar uma leve alteração no arquivo de controle do indicator-application.desktop:
+
+```jsx{}
+sudo nano /etc/xdg/autostart/indicator-application.desktop
+```
+
+Na tag "OnlyShowIn=Unity;GNOME;" adicione o "Pantheon;" após o final, ficando assim:
+
+```jsx{}
+OnlyShowIn=Unity;GNOME;Pantheon;
+```
+
+Olhe o meu arquivo final como ficou:
+
+```jsx{}
+Type=Application
+Name=Indicator Application
+Exec=/usr/lib/x86_64-linux-gnu/indicator-application/indicator-application-service
+StartupNotify=false
+Terminal=false
+OnlyShowIn=Unity;GNOME;Pantheon;
+NotShowIn=ubuntu;
+NoDisplay=true
+AutostartCondition=GNOME3 unless-session gnome
+```
+
+Obs: para sair do edito nano pressione Ctrl+X ele vai perguntar se deseja Salvar, responda Y e aperte o Enter.
+
+Após realizar o procedimento, reinicie o seu sistema e pronto! Agora os icones dos novos programas apareceram 🤩.
+
+![Barra superior do ElementaryOS](/static/images/barra-elementaryos.png)
+
+Até mais!
+
+---
